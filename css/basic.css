@@ -1,0 +1,20 @@
+.error {color: #FF0000;}
+
+div.content {
+    background-color: #f3f3f3;
+    border: 1px solid;
+    margin-left: 3%;
+    margin-top: 1%;
+    width: 50%;
+
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+
+    box-shadow: 0px 5px 25px #888888;
+}
+
+body {
+    background-color: #d3d3d3;
+}
