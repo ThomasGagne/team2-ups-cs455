@@ -23,7 +23,7 @@
             //loop through each tuple in result set
             foreach($result as $tuple)
             {
-              echo "$tuple[ssn] $tuple[f_name] $tuple[l_name]<br/>";
+              echo "$tuple[ssn] $tuple[f_name] $tuple[l_name] <form action="delete.php" method="post"> <input type="hidden" name="fname" value='$tuple[f_name]'> <input type="hidden" name="lname" value='$tuple[l_name]'> <input type="hidden" name="ssn" value='$tuple[ssn]'> <input type="submit" value="Delete"> </form>";
             }
  
             //disconnect from database
