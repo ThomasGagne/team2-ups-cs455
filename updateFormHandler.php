@@ -6,16 +6,17 @@
 		
 		//Update new data
 		
-		$table = $_POST[table];
+		$table = $_POST['table'];
 		
 		if($table === "passengers") {
-			$db->exec("
+			echo "made it";
+		$db->exec("
 				UPDATE passengers 
 				SET 
 					f_name = '$_POST[f_name]',
 					m_name = '$_POST[m_name]',
-					l_name = '$_POST[l_name]',
-				WHERE ssn = '$_POST[ssn]'
+					l_name = '$_POST[l_name]'
+				WHERE ssn = '$_POST[ssn]';
 			");
 			header('Location: \showPassengers.php');
 		} else if ($table === "planes") {
@@ -57,7 +58,9 @@
 		}
 		
 		
-	}
+	}  catch(PDOException $e) {
+					echo 'Exception : '.$e->getMessage();
+				}
 
 
 

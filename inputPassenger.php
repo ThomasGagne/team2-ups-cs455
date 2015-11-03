@@ -10,7 +10,7 @@
   <!-- Behind-the-scenes php -->
   <?php
      $ssn = $fnameErr = $lnameErr = $lnameErr = "";
-     $ssn = $fname = $lname = "";
+     $ssn = $fname = $lname = $ssnErr = "";
      $success = "";
      
      if ($_SERVER["REQUEST_METHOD"] == "POST") {
