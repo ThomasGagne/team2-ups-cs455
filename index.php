@@ -16,12 +16,12 @@ if (session_status() == PHP_SESSION_NONE) {
      <!-- Just include buttons linking to the login page and the "create account" page -->
      <h3>Log in to an existing account:</h3>
      <form action="login.php" method="get">
-       <input type="submit" value="Log In" name="Submit" id="frm1_submit" />
+      <input type="submit" value="Log In" name="Submit"/>
      </form>
 
      <h3>Or create a new account:</h3>
      <form action="register.php" method="get">
-       <input type="submit" value="Create Account" name="Submit" id="frm1_submit" />
+       <input type="submit" value="Create Account" name="Submit"/>
      </form>
 
      <?php echo "username: " . $_SESSION["username"]; ?>

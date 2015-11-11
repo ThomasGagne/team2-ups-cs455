@@ -18,3 +18,8 @@ div.content {
 body {
     background-color: #d3d3d3;
 }
+
+noscript {
+  color: #f00;
+  font-size: 14pt;
+}
