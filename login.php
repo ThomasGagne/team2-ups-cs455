@@ -6,34 +6,31 @@ if (session_status() == PHP_SESSION_NONE) {
 require 'generalFunctions.php';
 require 'PasswordHash.php';
 
+$badLoginErr = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = clean_input($_POST["username"]);
     $password = clean_input($_POST["password"]);
 
     if (inputted_properly($username) and inputted_properly($password)) {
 
-        // Before checking credentials, I need to make sure that the username actually exists.
+        // TODO: Before checking credentials, I need to make sure that the username actually exists.
 
         if (correct_credentials($username, $password)) {
             $_SESSION["username"] = $username;
-            unset($_SESSION["login/username"]);
-            unset($_SESSION["login/password"]);
-            unset($_SESSION["login/invalidLogin"]);
 
             // TODO: Make the user go to the last page they were on after a successful login
             header("Location: index.php");
             exit();
         } else {
-            $_SESSION["login/invalidLogin"] = "Sorry, your account name or password was wrong.";
-            unset($_SESSION["login/username"]);
-            unset($_SESSION["login/password"]);
+            $badLoginErr = "Sorry, your account name or password was wrong.";
 
             header("Location: login.php");
             exit();
         }
 
     } else {
-        $_SESSION["login/invalidLogin"] = "Sorry, your username or password cannot be blank.";
+        $badLoginErr = "Sorry, your username or password cannot be blank.";
     }
 }
 
@@ -95,7 +92,7 @@ function correct_credentials($username, $password) {
                 <br>
                 <input type="submit" name="submit" value="Log in">
                 <br>
-                <span class="error"><?php echo $_SESSION["login/invalidLogin"]; ?></span>
+                <span class="error"><?php echo $badLoginErr; ?></span>
                 <br>
             </form>
 

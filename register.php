@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 require 'generalFunctions.php';
 
 $usernameErr = $emailErr = $totalFailure = "";
+$username = $email = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = clean_input($_POST["username"]);
