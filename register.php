@@ -15,7 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (inputted_properly($username) and inputted_properly($email)) {
 
-        // Check if username is taken
+        // Check if username is taken in the DB
+        // In the future, we should do this differently, since our current setup can be broken
+        // due to race conditions of 2 users trying to create the same name at the same time.
         try {
             $db = new PDO("sqlite:database/noiseFactionDatabase.db");
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -36,11 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $db = null;
             
         } catch(PDOException $e) {
-            // For now, print out errors so we catch them early.
-            // One way to get errors is to try sql injection like:
-            // username = '; drop table Accout;--
-            // In the future, this should result in a "total failure"-type message.
-            echo 'Exception: '.$e->getMessage();            
+            // For now, print out errors so we catch them early. In professional deployment,
+            // this should NEVER be done, since it can leak vital DB information.
+            // In the future, we'll need to read the exception and give the user an appropriate message.
+            echo 'Exception: '.$e->getMessage();
+        }
+
+        // Make sure the username only contains standard characters
+        if (!preg_match('/^[a-zA-Z0-9_]{1,60}$/', $username)) {
+            $usernameErr = "Sorry, your username can only contain letters, numbers, and underscores!";
+            $fail = true;
         }
         
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {

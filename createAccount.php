@@ -10,18 +10,16 @@ $username = $_SESSION["register/username"];
 $email = $_SESSION["register/email"];
 $password = $_SESSION["register/password"];
 
+// PHPass is amazing, and will automatically take care of the password salt for us :D
 $hasher = new PasswordHash(8, FALSE);
-$salt = openssl_random_pseudo_bytes(32);
-$passwordAndSalt = $salt . $password;
 $hash = $hasher->HashPassword($passwordAndSalt);
 
 try {
-    
     $db = new PDO("sqlite:database/noiseFactionDatabase.db");
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $statement = $db->prepare("insert into Account values(?, ?, ?, ?);");
-    $result = $statement->execute(array($username, $email, $hash, $salt));
+    $statement = $db->prepare("insert into Account values(?, ?, ?);");
+    $result = $statement->execute(array($username, $email, $hash));
 
     if (!$result) {
         throw new pdoDbException("Something's gone wrong with the prepared statement");
