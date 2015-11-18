@@ -60,6 +60,12 @@ body {
   color: #e22;
 }
 
+.headerLogout {
+  float: right;
+  padding-top: 15px;
+  padding-right: 15px;
+}
+
 noscript {
   color: #f00;
   font-size: 14pt;

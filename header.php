@@ -14,18 +14,21 @@
             |
         </span>
         <span>
-            <form class="headerSearchContainer" action="searchSongs.php">
+            <form class="headerSearchContainer" action="/searchSongs.php">
                 <input type="text" name="searchSongs" class="headerSearch" placeholder="Search Songs" size="30"/>
                 <input type="submit" style="font-size: 12px;" value="Search Songs">
             </form>
         </span>
         <span>
-            <form class="headerSearchContainer" action="searchPlaylists.php">
+            <form class="headerSearchContainer" action="/searchPlaylists.php">
                 <input type="text" name="searchPlaylists" class="headerSearch" placeholder="Search Playlists" size="30"/>
                 <input type="submit" style="font-size: 12px;" value="Search Playlists">
             </form>
         <span class="headerUsername">
             <a href="searchHelp.php" style="font-size: 14px; margin-left: -10px;">Search Help</a>
+        </span>
+        <span class="headerLogout">
+            <a href="/logout.php">Logout</a>
         </span>
     </div>
 </header>
