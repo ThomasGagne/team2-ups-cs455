@@ -90,11 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <script src="js/registerPasswordsMatch.js"></script>
     </head>
     <body>
-        
-        <noscript>
-            <p class="noscript">Sorry, but we unforunately need javascript to be enabled in order to provide this service to you.</p>
-            <p class="noscript">If you are using NoScript, please whitelist noiseFaction.com so we can provide great music to you ;)</p>
-        </noscript>
+
+        <?php include("header.php"); ?>
+        <?php include("noscript.html"); ?>
         
         <div class="content">
 
