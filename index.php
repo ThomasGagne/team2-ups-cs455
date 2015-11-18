@@ -2,6 +2,8 @@
 if (session_status() == PHP_SESSION_NONE) {
    session_start();
 }
+
+require "generalFunctions.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,9 +25,8 @@ if (session_status() == PHP_SESSION_NONE) {
      <form action="register.php" method="get">
        <input type="submit" value="Create Account" name="Submit"/>
      </form>
-
-     <?php echo "username: " . $_SESSION["username"]; ?>
-     
+     <!-- There's no way to easily print out potentially unset variables other than this -->
+     <?php echo "username: "; echo isset($_SESSION["username"]) ? $_SESSION["username"] : ""; ?>
 
    </div>
 
