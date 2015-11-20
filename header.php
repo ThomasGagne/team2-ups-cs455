@@ -28,7 +28,11 @@
             <a href="searchHelp.php" style="font-size: 14px; margin-left: -10px;">Search Help</a>
         </span>
         <span class="headerLogout">
-            <a href="/logout.php">Logout</a>
+            <?php
+            if (isset($_SESSION["username"])) {
+                echo '<a href="/logout.php">Logout</a>';
+            }
+            ?>
         </span>
     </div>
 </header>
