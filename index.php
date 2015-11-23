@@ -17,18 +17,37 @@ require "generalFunctions.php";
         <?php include("header.php"); ?>
         <?php include("noscript.html"); ?>
 
-        <div class="content">
-            <!-- Just include buttons linking to the login page and the "create account" page -->
-            <h3>Log in to an existing account:</h3>
-            <form action="login.php" method="get">
-                <input type="submit" value="Log In" name="Submit"/>
-            </form>
+        <div class="content-center" style="margin-top: 10%;">
+
+            <b><p class="NOISEFACTION"><span style="color: brown;">Noise</span><span style="color: dimgrey;">Faction</span></p></b>
+            <table style="margin-left: auto; margin-right: auto; margin-bottom: 5px;">
+                <tr>
+                    <form action="/searchSongs.php">
+                        <td><input type="text" name="searchSongs" class="frontpageSearch" placeholder="Search Songs" size="30"/></td>
+                        <td><input type="submit" style="font-size: 16px;" value="Search Songs"></td>
+                    </form>
+                </tr>
             
-            <h3>Or create a new account:</h3>
-            <form action="register.php" method="get">
-                <input type="submit" value="Create Account" name="Submit"/>
-            </form>
+
+                <tr>
+                    <form class="frontpageSearch" action="/searchPlaylists.php">
+                        <td><input type="text" name="searchPlaylists" class="frontpageSearch" placeholder="Search Playlists" size="30"/></td>
+                        <td><input type="submit" style="font-size: 16px;" value="Search Playlists"></td>
+                    </form>
+                </tr>
+            </table>
+
+            <a style="text-align: center; display: block; margin: 0px auto; font-size: 14pt; color: #565656;" href="/searchHelp.php">Search Help</a>
             
+            <hr>
+
+            <table style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td><a href="/login.php" style="font-size: 16pt; color: #565656;">Login</a></td>
+                    <td><div style="width: 20px;"/></td>
+                    <td><a href="/register.php" style="font-size: 16pt; color: #565656;">Register</a></td>
+                </tr>
+            </table>
         </div>
         
     </body>

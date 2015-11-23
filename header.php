@@ -24,8 +24,9 @@
                 <input type="text" name="searchPlaylists" class="headerSearch" placeholder="Search Playlists" size="30"/>
                 <input type="submit" style="font-size: 12px;" value="Search Playlists">
             </form>
+        </span>
         <span class="headerUsername">
-            <a href="searchHelp.php" style="font-size: 14px; margin-left: -10px;">Search Help</a>
+            <a href="/searchHelp.php" style="font-size: 14px; margin-left: -10px;">Search Help</a>
         </span>
         <span class="headerLogout">
             <?php

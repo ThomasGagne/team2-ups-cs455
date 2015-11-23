@@ -15,6 +15,24 @@ div.content {
     box-shadow: 0px 5px 25px #888888;
 }
 
+div.content-center {
+    background-color: #f3f3f3;
+    border: 1px solid;
+    margin-top: 1%;
+    width: 50%;
+
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+
+    box-shadow: 0px 5px 25px #888888;
+
+    position: relative;
+    float: left;
+    left: 23%;
+}
+
 body {
     background-color: #d3d3d3;
 }
@@ -69,4 +87,17 @@ body {
 noscript {
   color: #f00;
   font-size: 14pt;
+}
+
+.frontpageSearch {
+  border: 1px solid rgb(119, 119, 119);
+  font-size: 16pt;
+}
+
+.NOISEFACTION {
+  text-align: center;
+  font-size: 24pt;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 24pt;
 }
