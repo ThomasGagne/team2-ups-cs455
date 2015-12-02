@@ -8,11 +8,7 @@ require 'generalFunctions.php';
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Team2</title>
-        <link rel="stylesheet" type="text/css" href="css/basic.css">
-    </head>
+    <?php include("head.html") ?>
     <body>
 
         <?php include("header.php"); ?>
@@ -38,7 +34,7 @@ require 'generalFunctions.php';
                     // Go through each arg and add its condition to the query
                     $ordering = "order by uploadTimeStamp";
 
-                    $query = "select S.* from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader)";
+                    $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader)";
                     $conditions = array();
                     
                     if (count($args) === 0) {

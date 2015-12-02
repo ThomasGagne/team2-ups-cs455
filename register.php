@@ -83,12 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Team2</title>
-        <link rel="stylesheet" type="text/css" href="css/basic.css">
-        <script src="js/registerPasswordsMatch.js"></script>
-    </head>
+    <?php include("head.html"); ?>
     <body>
 
         <?php include("header.php"); ?>

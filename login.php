@@ -75,11 +75,7 @@ function correct_credentials($username, $password) {
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Team2</title>
-        <link rel="stylesheet" type="text/css" href="css/basic.css">
-    </head>
+    <?php include("head.html"); ?>
     <body>
 
         <?php include("header.php"); ?>
