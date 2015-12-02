@@ -85,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
     <head>
         <?php include("head.html"); ?>
+        <script src="/js/registerPasswordsMatch.js"></script>
     </head>
     <body>
 
