@@ -19,6 +19,8 @@ function stopSong() {
 function loadNewSong(songLocation) {
   currentSong.unload();
   currentSong = new Howl({
-    urls: ["songs/" + songLocation]
+    urls: ["songs/" + songLocation],
+    buffer: true
   });
+
 }
