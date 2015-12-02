@@ -7,7 +7,9 @@ require "generalFunctions.php";
 ?>
 <!DOCTYPE html>
 <html>
-    <?php include("head.html"); ?>
+    <head>
+        <?php include("head.html"); ?>
+    </head>
     <body>
 
         <?php include("header.php"); ?>

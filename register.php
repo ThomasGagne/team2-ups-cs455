@@ -83,7 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
-    <?php include("head.html"); ?>
+    <head>
+        <?php include("head.html"); ?>
+    </head>
     <body>
 
         <?php include("header.php"); ?>
