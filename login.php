@@ -85,7 +85,7 @@ function correct_credentials($username, $password) {
         <?php include("header.php"); ?>
         <?php include("noscript.html"); ?>
 
-        <div class="content">
+        <div class="content-center">
             <h3>Log in to an existing account:</h3>
 
             <form method="post" action="login.php">

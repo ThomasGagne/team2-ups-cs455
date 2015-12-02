@@ -16,7 +16,7 @@ function clean_input($data) {
     return $data;
 }
 
-// Returns True if an input (e.g. a textbox input) is good.
+// Returns True if an input (e.g. a textbox input) is a non-empty string.
 // INPUT: What is hoped to be a string.
 // OUPUT: True if the argument's not an empty string.
 function inputted_properly($var) {

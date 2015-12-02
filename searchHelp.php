@@ -17,7 +17,7 @@ require "generalFunctions.php";
         <?php include("header.php"); ?>
         <?php include("noscript.html"); ?>
 
-        <div class="content">
+        <div class="content-center">
             <h2>Searching</h2>
             <ul>
                 <li><h3>Basics</h3></li>

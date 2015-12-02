@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php include("header.php"); ?>
         <?php include("noscript.html"); ?>
         
-        <div class="content">
+        <div class="content-center">
 
             <h3>Create a new account:</h3>
             <form method="post" action="register.php">
