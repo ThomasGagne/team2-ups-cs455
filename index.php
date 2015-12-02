@@ -15,6 +15,12 @@ require "generalFunctions.php";
         <?php include("header.php"); ?>
         <?php include("noscript.html"); ?>
 
+        <script type="text/javascript">
+         window.onbeforeunload = function(){
+             stopSong();
+         };
+        </script>
+
         <div class="content-center" style="margin-top: 10%;">
 
             <b><p class="NOISEFACTION"><span style="color: brown;">Noise</span><span style="color: dimgrey;">Faction</span></p></b>
