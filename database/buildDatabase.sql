@@ -42,11 +42,12 @@ create table Playlist (
 create table PlaylistContainsSong (
   title TEXT,
   artist TEXT,
+  songUploader TEXT,
   playlistName TEXT,
   playlistOwner TEXT,
   track_no INTEGER NOT NULL,
-  PRIMARY KEY(title, artist, playlistName, playlistOwner),
-  FOREIGN KEY (title, artist) REFERENCES Song(title, artist)
+  PRIMARY KEY(title, artist, songUploader, playlistName, playlistOwner),
+  FOREIGN KEY (title, artist, songUploader) REFERENCES Song(title, artist, uploader)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
   FOREIGN KEY (playlistName, playlistOwner) REFERENCES Playlist(playlistName, owner)
