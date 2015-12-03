@@ -17,7 +17,7 @@ require "generalFunctions.php";
 
         <script type="text/javascript">
          window.onbeforeunload = function(){
-             stopSong();
+             killSound();
          };
         </script>
 
@@ -52,6 +52,15 @@ require "generalFunctions.php";
                     <td><a href="/register.php" style="font-size: 16pt; color: #565656;">Register</a></td>
                 </tr>
             </table>
+            <?php
+            $song = array();
+            $song["title"] = "myAmazingTitle";
+            $song["artist"] = "Me";
+            $song["uploader"] = "tom";
+            $song["location"] = "vulture.wav";
+            $song["score"] = 53;
+            echo generateSongPlayer($song);
+            ?>
         </div>
         
     </body>
