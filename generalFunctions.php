@@ -67,4 +67,37 @@ function generateSongPlayer($songArr) {
     return $html;
 }
 
+// Directly prints out some HTML which allows one to change the page number using a GET variable
+// INPUT: The name of the GET variable for the offset
+// OUTPUT: Nothing. It prints out to the page, though.
+function printPageNavigation($offset) {
+    echo "Page: ";
+    if (strpos($_SERVER[REQUEST_URI], "&$offset=")) {
+        if ($offset > 0) {
+            $downURI = preg_replace("/(?<=$offset=)(\d*)(?=(.|$))/", $offset - 10, $_SERVER[REQUEST_URI]);
+            $downPage = (($offset - 10) / 10) + 1;
+        }
+
+        $upURI = preg_replace("/(?<=$offset=)(\d*)(?=(.|$))/", $offset + 10, $_SERVER[REQUEST_URI]);
+        $upPage = (($offset + 10) / 10) + 1;
+
+    } else {
+        if ($offset > 0) {
+            $downVal = $offset - 10;
+            $downURI = $_SERVER[REQUEST_URI] . "&$offset=$downVal";
+            $downPage = (($offset - 10) / 10) + 1;
+        }
+
+        $upVal = $offset + 10;
+        $upURI = $_SERVER[REQUEST_URI] . "&$offset=$upVal";
+        $upPage = (($offset + 10) / 10) + 1;
+    }
+
+    echo "<a href=\"$downURI\">$downPage</a>";
+    echo " ";
+    echo ($offset / 10) + 1;
+    echo " ";
+    echo "<a href=\"$upURI\">$upPage</a>";
+}
+
 ?>
