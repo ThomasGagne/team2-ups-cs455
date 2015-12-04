@@ -44,7 +44,7 @@ function generateSongPlayer($songArr) {
     $html = $html . "<span class='score'>⬆<b>$score</b></span>";
 
     // Add the star button
-    if (inputted_properly($_SESSION["username"])) {
+    if (isset($_SESSION["username"]) and inputted_properly($_SESSION["username"])) {
         $starID = $title . ":" . $artist . ":" . $uploader . ":star";
         $username = $_SESSION["username"];
         $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
