@@ -13,7 +13,6 @@ if (!isset($_GET["user"])) {
     exit();
 } else {
     $user = $_GET["user"];
-    // What should you be able to do on your account page?
 }
 
 ?>
@@ -27,10 +26,29 @@ if (!isset($_GET["user"])) {
         <?php include("../header.php"); ?>
         <?php include("../noscript.html"); ?>
         
-        <div class="content">
+        <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
-            Down here's gonna go some amazing stuff.
-            For example, let's get their most recently uploaded songs or something, I dunno.
+            <hr>
+            <h3>Recently Uploaded:</h3>
+
+            <?php
+            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader) where uploader=\"$user\" order by uploadTimeStamp desc limit 15;";
+
+            try {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $statement = $db->prepare($query);
+                $result = $statement->execute();
+
+                while ($row = $statement->fetch()) {
+                    echo generateSongPlayer($row);
+                }
+
+            } catch(PDOException $e) {
+                echo 'Exception: '.$e->getMessage();
+            }
+            ?>
         </div>
         
     </body>
