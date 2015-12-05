@@ -25,7 +25,26 @@ if (!isset($_GET["user"])) {
 
         <?php include("../header.php"); ?>
         <?php include("../noscript.html"); ?>
-        
+
+        <div class="pv-right">
+            <form action="setPrivacy.php" method="post" class ="dropdown"  size="20">
+            <select name="privacy">
+              <option value="Public">Public</option>
+              <option value="Private">Private</option>
+            </select>
+            <input type="submit" style="font-size: 12px;" size="20" value="Apply setting/">
+        </form>
+        </div>
+
+        <?php
+        $privateBool = false;
+       if($privateBool){
+                echo "<form class='headerSearchContainer' action=''>
+               <input type='text' name='addSearch' class='dropSearch' placeholder='Search Songs' size='20'/>
+                <input type='submit' style='font-size: 12px;' value='Search!'>
+                </form>";}
+        ?>
+
         <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
             <hr>
