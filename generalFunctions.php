@@ -57,9 +57,6 @@ function generateSongPlayer($songArr) {
 
             $result = $statement->execute();
 
-            //echo print_r($statement->fetch());
-            //echo "<br>";
-            
             if (!$result) {
                 throw new pdoDbException("Something's gone wrong with the prepared statement");
             } else if ($statement->fetch() === false) {
@@ -89,7 +86,7 @@ function generateSongPlayer($songArr) {
     // Add the song details and time counter
     $html = $html . "<table class='songDetailsTable'><tr><td>$title - $artist</td></tr>";
     $timerID = $title . ":" . $artist . ":" . $uploader . ":time";
-    $html = $html . "<tr><td><span id='$timerID'>00:00</span></td></tr>";
+    $html = $html . "<tr><td><span id='$timerID'>00:00</span> - Uploader: <a href='/account/index.php?user=$uploader'>$uploader</a></td></tr>";
 
     // Clean up
     $html = $html . "</table></td></tr></table></div>";
