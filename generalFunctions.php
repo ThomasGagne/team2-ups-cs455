@@ -49,7 +49,16 @@ function generateSongPlayer($songArr) {
 
         // See if the person logged in has starred this track already
         try {
-            $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+
+            // This is for cases when we're using this method in a deeper page
+            // e.g.: /account/index.php
+            // It's also completely atrocious
+            try {
+                $db = new PDO("sqlite:/database/noiseFactionDatabase.db");
+            } catch(PDOException $e) {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+            }
+            
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             $starringUsername = $_SESSION["username"];
@@ -72,7 +81,7 @@ function generateSongPlayer($songArr) {
             $db = null;
 
         } catch(PDOException $e) {
-            echo 'Exception: '.$e->getMessage();
+            echo 'Exceptions: '.$e->getMessage();
         }
         
     } else {
