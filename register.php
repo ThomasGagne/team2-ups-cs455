@@ -69,11 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }else {
         // Something must be empty
         
-        if (!input_properly($username)) {
+        if (!inputted_properly($username)) {
             $usernameErr = "Sorry, your username can't be empty!";
         }
 
-        if (!input_properly($email)) {
+        if (!inputted_properly($email)) {
             $emailErr = "Sorry, your email can't be empty!";
         }
         
