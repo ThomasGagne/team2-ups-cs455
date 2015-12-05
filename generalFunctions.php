@@ -103,6 +103,43 @@ function generateSongPlayer($songArr) {
     return $html;
 }
 
+function printPlayList($pname, $owner){
+    try {
+
+            // This is for cases when we're using this method in a deeper page
+            // e.g.: /account/index.php
+            // It's also completely atrocious
+            try {
+                $db = new PDO("sqlite:/database/noiseFactionDatabase.db");
+            } catch(PDOException $e) {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+            }
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            
+            $statement = $db->prepare("select * from playlistcontainssong where playlistname  = ? and owner = ? ;");
+
+            $result = $statement->execute(array($pname, $owner));
+            echo "<div> <h3> $pname - $owner </h3>";
+
+
+
+            while ($row = $statement->fetch()){
+                echo generateSongPlayer($row);
+
+            }
+            echo '</div>';
+
+            
+            $db = null;
+
+        } catch(PDOException $e) {
+            echo 'Exceptions: '.$e->getMessage();
+        }
+        
+
+}
 // Directly prints out some HTML which allows one to change the page number using a GET variable
 // INPUT: The name of the GET variable for the offset
 // OUTPUT: Nothing. It prints out to the page, though.
