@@ -48,6 +48,8 @@ function starSong(starringUsername, title, artist, uploader) {
              success: function(output) {
                star.style.color = "#cca300";
                star.disabled = true;
+               var score = document.getElementById(title + ":" + artist + ":" + uploader + ":score");
+               score.innerHTML = parseInt(score.innerHTML, 10) + 1;
              }
            });
   }
