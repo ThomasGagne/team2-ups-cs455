@@ -38,9 +38,18 @@ function loadNewSong(songLocation) {
 function starSong(starringUsername, title, artist, uploader) {
   var star = document.getElementById(title + ":" + artist + ":" + uploader + ":star");
   if (star.style.color == ""){
-    star.style.color = "#cca300";
-  } else {
-    star.style.color = "";
+    $.ajax({ url: '/starSong.php',
+             data: {starringUsername: starringUsername,
+                    title: title,
+                    artist: artist,
+                    uploader: uploader
+                   },
+             type: 'post',
+             success: function(output) {
+               star.style.color = "#cca300";
+               star.disabled = true;
+             }
+           });
   }
 }
 

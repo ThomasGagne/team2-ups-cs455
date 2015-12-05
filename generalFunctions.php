@@ -45,9 +45,38 @@ function generateSongPlayer($songArr) {
 
     // Add the star button
     if (isset($_SESSION["username"]) and inputted_properly($_SESSION["username"])) {
-        $starID = $title . ":" . $artist . ":" . $uploader . ":star";
-        $username = $_SESSION["username"];
-        $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+
+        // See if the person logged in has starred this track already
+        try {
+            $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $starringUsername = $_SESSION["username"];
+            $statement = $db->prepare("select * from Starred where title = '$title' and artist = '$artist' and songUploader = '$uploader' and starringUsername = '$starringUsername';");
+
+            $result = $statement->execute();
+
+            //echo print_r($statement->fetch());
+            //echo "<br>";
+            
+            if (!$result) {
+                throw new pdoDbException("Something's gone wrong with the prepared statement");
+            } else if ($statement->fetch() === false) {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+            } else {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' disabled='true' style='color: #cca300;'>&#9733;</button>";
+            }
+
+            $db = null;
+
+        } catch(PDOException $e) {
+            echo 'Exception: '.$e->getMessage();
+        }
+        
     } else {
         $html = $html . "<button class='playerButton' disabled='true'>&#9733;</button>";
     }
