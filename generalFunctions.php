@@ -41,13 +41,49 @@ function generateSongPlayer($songArr) {
     $html = "<div class='songPlayer'><table><tr><td>";
 
     // Add the score
-    $html = $html . "<span class='score'>⬆<b>$score</b></span>";
+    $scoreID = "" . $title . ":" . $artist . ":" . $uploader . ":score";
+    $html = $html . "<span class='score'>⬆<b id='$scoreID'>$score</b></span>";
 
     // Add the star button
-    if (inputted_properly($_SESSION["username"])) {
-        $starID = $title . ":" . $artist . ":" . $uploader . ":star";
-        $username = $_SESSION["username"];
-        $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+    if (isset($_SESSION["username"]) and inputted_properly($_SESSION["username"])) {
+
+        // See if the person logged in has starred this track already
+        try {
+
+            // This is for cases when we're using this method in a deeper page
+            // e.g.: /account/index.php
+            // It's also completely atrocious
+            try {
+                $db = new PDO("sqlite:/database/noiseFactionDatabase.db");
+            } catch(PDOException $e) {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+            }
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $starringUsername = $_SESSION["username"];
+            $statement = $db->prepare("select * from Starred where title = '$title' and artist = '$artist' and songUploader = '$uploader' and starringUsername = '$starringUsername';");
+
+            $result = $statement->execute();
+
+            if (!$result) {
+                throw new pdoDbException("Something's gone wrong with the prepared statement");
+            } else if ($statement->fetch() === false) {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+            } else {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' disabled='true' style='color: #cca300;'>&#9733;</button>";
+            }
+
+            $db = null;
+
+        } catch(PDOException $e) {
+            echo 'Exceptions: '.$e->getMessage();
+        }
+        
     } else {
         $html = $html . "<button class='playerButton' disabled='true'>&#9733;</button>";
     }
@@ -59,7 +95,7 @@ function generateSongPlayer($songArr) {
     // Add the song details and time counter
     $html = $html . "<table class='songDetailsTable'><tr><td>$title - $artist</td></tr>";
     $timerID = $title . ":" . $artist . ":" . $uploader . ":time";
-    $html = $html . "<tr><td><span id='$timerID'>00:00</span></td></tr>";
+    $html = $html . "<tr><td><span id='$timerID'>00:00</span> - Uploader: <a href='/account/index.php?user=$uploader'>$uploader</a></td></tr>";
 
     // Clean up
     $html = $html . "</table></td></tr></table></div>";
