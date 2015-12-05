@@ -54,7 +54,7 @@ function generateSongPlayer($songArr) {
             // e.g.: /account/index.php
             // It's also completely atrocious
             try {
-                $db = new PDO("sqlite:/database/noiseFactionDatabase.db");
+                $db = new PDO("sqlite:database/noiseFactionDatabase.db");
             } catch(PDOException $e) {
                 $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
             }
@@ -135,5 +135,6 @@ function printPageNavigation($offset) {
     echo " ";
     echo "<a href=\"$upURI\">$upPage</a>";
 }
+
 
 ?>
