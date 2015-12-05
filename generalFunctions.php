@@ -24,6 +24,37 @@ function inputted_properly($var) {
 }
 
 // Return a string which can be echoed to the page and embodies a music player
+// Essentially the same as generateSongPlayer(), but this only requires the PK
+// Hence, it involves a DB query.
+function generateSongPlayerFromPK($title, $artist, $uploader) {
+    try {
+        try {
+            $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+        } catch(PDOException $e) {
+            $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+        }
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $statement = $db->prepare("select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader) where title = ? and artist = ? and S.uploader = ?;");
+        
+        $result = $statement->execute(array($title, $artist, $uploader));
+
+        if (!$result) {
+            throw new pdoDbException("Something's gone wrong with the prepared statement");
+        } else {
+            while ($row = $statement->fetch()) {
+                return generateSongPlayer($row);
+            }
+        }
+        
+    } catch(PDOException $e) {
+        echo "Exception: " . $e->getMessage();
+    }
+
+    return "";
+}
+
+// Return a string which can be echoed to the page and embodies a music player
 // INPUT: A dictionary of all the song's details. The keys should at a minimum be:
 // title
 // artist
