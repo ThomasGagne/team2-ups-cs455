@@ -5,10 +5,14 @@
             if (isset($_SESSION["username"])) {
                 echo '<a href="/account/index.php?user=' . $_SESSION["username"] . '">';
                 echo $_SESSION["username"] . '</a>';
+                echo "  |   ";
+                echo '<a href="/uploadPage.php">Upload</a>';
             } else {
                 echo '<a href="/login.php">Login</a>';
                 echo "  |  ";
                 echo '<a href="/register.php">Register</a>';
+                echo "  |   ";
+                echo '<a href="/uploadPage.php">Upload</a>';
             }
             ?>
             |
