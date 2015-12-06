@@ -32,7 +32,9 @@
         <span class="headerLogout">
             <?php
             if (isset($_SESSION["username"])) {
-                echo '<a href="uploadFile.php">Upload</a>';
+                echo '<a href="/newPlaylist.php">New Playlist</a>';
+                echo "  |  ";
+                echo '<a href="/uploadFile.php">Upload</a>';
                 echo "  |  ";
                 echo '<a href="/logout.php">Logout</a>';
             }
