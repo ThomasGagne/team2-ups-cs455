@@ -83,7 +83,13 @@ body {
 .headerLogout {
   float: right;
   padding-top: 15px;
-  padding-right: 15px;
+  padding-right: 20px;
+}
+
+.indexHome {
+  float: right;
+  padding-top: 15px;
+  padding-right: 12px;
 }
 
 noscript {
@@ -114,11 +120,9 @@ noscript {
   padding-top: 5px;
   padding-right: 15px;
   
-  box-shadow: 0px 5px 25px #888888;
+  box-shadow: 0px 5px 25px #999;
   
   position: relative;
-  float: left;
-  left: 23%;
 }
 
 .songDetailsTable {
@@ -138,3 +142,32 @@ noscript {
   height: 40px;
   font-size: 16pt;
 }
+
+
+th {
+    background-color: #aaaaaa;
+    opacity: 0.4;
+    color: white;
+}
+table {
+	box-shadow: 1px 0px 10px #999999;
+    border-collapse: collapse;
+}
+
+#table, td, th {
+#    border: 1px;
+#    color: white;
+#    box-shadow: 1px 0px 10px #999999;
+#}
+#td {
+#	background-color: black;
+#	opacity: 0.4;
+#	height: 100px;
+#   text-align: center;
+#}
+
+#td:hover {
+#    opacity: 1.0;
+#  
+#}
+

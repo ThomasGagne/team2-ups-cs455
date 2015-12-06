@@ -24,6 +24,37 @@ function inputted_properly($var) {
 }
 
 // Return a string which can be echoed to the page and embodies a music player
+// Essentially the same as generateSongPlayer(), but this only requires the PK
+// Hence, it involves a DB query.
+function generateSongPlayerFromPK($title, $artist, $uploader) {
+    try {
+        try {
+            $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+        } catch(PDOException $e) {
+            $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+        }
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $statement = $db->prepare("select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader) where title = ? and artist = ? and S.uploader = ?;");
+        
+        $result = $statement->execute(array($title, $artist, $uploader));
+
+        if (!$result) {
+            throw new pdoDbException("Something's gone wrong with the prepared statement");
+        } else {
+            while ($row = $statement->fetch()) {
+                return generateSongPlayer($row);
+            }
+        }
+        
+    } catch(PDOException $e) {
+        echo "Exception: " . $e->getMessage();
+    }
+
+    return "";
+}
+
+// Return a string which can be echoed to the page and embodies a music player
 // INPUT: A dictionary of all the song's details. The keys should at a minimum be:
 // title
 // artist
@@ -41,13 +72,49 @@ function generateSongPlayer($songArr) {
     $html = "<div class='songPlayer'><table><tr><td>";
 
     // Add the score
-    $html = $html . "<span class='score'>⬆<b>$score</b></span>";
+    $scoreID = "" . $title . ":" . $artist . ":" . $uploader . ":score";
+    $html = $html . "<span class='score'>⬆<b id='$scoreID'>$score</b></span>";
 
     // Add the star button
     if (isset($_SESSION["username"]) and inputted_properly($_SESSION["username"])) {
-        $starID = $title . ":" . $artist . ":" . $uploader . ":star";
-        $username = $_SESSION["username"];
-        $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+
+        // See if the person logged in has starred this track already
+        try {
+
+            // This is for cases when we're using this method in a deeper page
+            // e.g.: /account/index.php
+            // It's also completely atrocious
+            try {
+                $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+            } catch(PDOException $e) {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+            }
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $starringUsername = $_SESSION["username"];
+            $statement = $db->prepare("select * from Starred where title = '$title' and artist = '$artist' and songUploader = '$uploader' and starringUsername = '$starringUsername';");
+
+            $result = $statement->execute();
+
+            if (!$result) {
+                throw new pdoDbException("Something's gone wrong with the prepared statement");
+            } else if ($statement->fetch() === false) {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' onClick='starSong(\"$username\", \"$title\", \"$artist\", \"$uploader\");'>&#9733;</button>";
+            } else {
+                $starID = $title . ":" . $artist . ":" . $uploader . ":star";
+                $username = $_SESSION["username"];
+                $html = $html . "<button class='playerButton' id='$starID' disabled='true' style='color: #cca300;'>&#9733;</button>";
+            }
+
+            $db = null;
+
+        } catch(PDOException $e) {
+            echo 'Exceptions: '.$e->getMessage();
+        }
+        
     } else {
         $html = $html . "<button class='playerButton' disabled='true'>&#9733;</button>";
     }
@@ -59,7 +126,7 @@ function generateSongPlayer($songArr) {
     // Add the song details and time counter
     $html = $html . "<table class='songDetailsTable'><tr><td>$title - $artist</td></tr>";
     $timerID = $title . ":" . $artist . ":" . $uploader . ":time";
-    $html = $html . "<tr><td><span id='$timerID'>00:00</span></td></tr>";
+    $html = $html . "<tr><td><span id='$timerID'>00:00</span> - Uploader: <a href='/account/index.php?user=$uploader'>$uploader</a></td></tr>";
 
     // Clean up
     $html = $html . "</table></td></tr></table></div>";
@@ -67,6 +134,43 @@ function generateSongPlayer($songArr) {
     return $html;
 }
 
+function printPlayList($pname, $owner){
+    try {
+
+            // This is for cases when we're using this method in a deeper page
+            // e.g.: /account/index.php
+            // It's also completely atrocious
+            try {
+                $db = new PDO("sqlite:/database/noiseFactionDatabase.db");
+            } catch(PDOException $e) {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+            }
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            
+            $statement = $db->prepare("select * from playlistcontainssong where playlistname  = ? and owner = ? ;");
+
+            $result = $statement->execute(array($pname, $owner));
+            echo "<div> <h3> $pname - $owner </h3>";
+
+
+
+            while ($row = $statement->fetch()){
+                echo generateSongPlayer($row);
+
+            }
+            echo '</div>';
+
+            
+            $db = null;
+
+        } catch(PDOException $e) {
+            echo 'Exceptions: '.$e->getMessage();
+        }
+        
+
+}
 // Directly prints out some HTML which allows one to change the page number using a GET variable
 // INPUT: The name of the GET variable for the offset
 // OUTPUT: Nothing. It prints out to the page, though.
@@ -99,5 +203,6 @@ function printPageNavigation($offset) {
     echo " ";
     echo "<a href=\"$upURI\">$upPage</a>";
 }
+
 
 ?>

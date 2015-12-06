@@ -68,7 +68,7 @@ require 'generalFunctions.php';
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
                         $user = substr($arg, 5);
-                        array_push($conditions, "uploader = '$user' ");
+                        array_push($conditions, "uploader = '$user' and where exists (select * from account as A where A.username = '$user' and A.private = false) ");
                         
                     } else if (substr($arg, 0, 6) === 'order:') {
                         $order = substr($arg, 6);
@@ -119,3 +119,5 @@ require 'generalFunctions.php';
 
     </body>
 </html>
+
+playlist NJ song
