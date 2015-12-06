@@ -4,7 +4,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Note: all paths are relative to the current page, not the DocumentRoot!
-require "../generalFunctions.php";
+require_once "../generalFunctions.php";
+
 
 // If we don't have a GET variable set, just redirect to the homepage.
 // Maybe we can have a page which lists currently popular users?
@@ -25,25 +26,45 @@ if (!isset($_GET["user"])) {
 
         <?php include("../header.php"); ?>
         <?php include("../noscript.html"); ?>
+        <?php include("/privacyPage.php");
+        echo $privateBool;
+        ?>
 
         <div class="pv-right">
-            <form action="setPrivacy.php" method="post" class ="dropdown"  size="20">
+            <form action="privacyPage.php" method="post" class ="dropdown"  size="20">
             <select name="privacy">
               <option value="Public">Public</option>
               <option value="Private">Private</option>
             </select>
-            <input type="submit" style="font-size: 12px;" size="20" value="Apply setting/">
+            <input type="submit" style="font-size: 12px;" size="20" value="Apply setting"/>
         </form>
+        <?php
+                try {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+                $statement = $db->prepare("Select private from Account where username='$user';");
+                $result = $statement->execute();
+
+                $db = null;
+            
+                } catch(PDOException $e) {
+                 echo 'Exception: '.$e->getMessage();
+                }
+         echo "Current setting is: $result";
+         ?>
         </div>
 
         <?php
-        $privateBool = false;
+        
        if($privateBool){
                 echo "<form class='headerSearchContainer' action=''>
                <input type='text' name='addSearch' class='dropSearch' placeholder='Search Songs' size='20'/>
                 <input type='submit' style='font-size: 12px;' value='Search!'>
                 </form>";}
         ?>
+
+
 
         <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>

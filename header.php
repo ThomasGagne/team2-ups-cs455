@@ -43,6 +43,7 @@
         <span class ="indexHome">
             <?php
                 echo '<a href="/index.php">Home</a>';
+                echo "  |  ";
             ?>
         </span>
     </div>

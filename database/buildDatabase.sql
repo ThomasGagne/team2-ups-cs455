@@ -15,8 +15,10 @@ drop table if exists SongTags;
 create table Account (
   username TEXT PRIMARY KEY,
   email TEXT NOT NULL,
-  passwordHash TEXT NOT NULL
+  passwordHash TEXT NOT NULL,
+  private BOOLEAN 
 );
+
 
 create table Song (
   title TEXT,
