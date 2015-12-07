@@ -14,9 +14,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (inputted_properly($username) and inputted_properly($password)) {
 
-        // TODO: Before checking credentials, I need to make sure that the username actually exists.
+        try {
+            $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if (correct_credentials($username, $password)) {
+            $statement = $db->prepare("select * from Account where username = ?;");
+            $result = $statement->execute(array($username));
+
+            $usernameExists = $statement->fetch() !== false;
+            //echo "asdf: " . ($usernameExists ? "yeah" : "nah");
+            //exit();
+            
+        } catch(PDOException $e) {
+            echo 'Exception: '.$e->getMessage();
+        }
+
+        if ($usernameExists and correct_credentials($username, $password)) {
             $_SESSION["username"] = $username;
 
             // TODO: Make the user go to the last page they were on after a successful login
@@ -24,9 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             $badLoginErr = "Sorry, your account name or password was wrong.";
-
-            header("Location: login.php");
-            exit();
         }
 
     } else {
