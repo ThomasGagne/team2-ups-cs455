@@ -118,11 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="post" action="newPlaylist.php">
                 Please enter the name for this playlist:
                 <br>
-                Name: <input type="text" name="playlistName" value="<?php echo $playlistName;?>">
+                Name: <input type="text" name="playlistName" value="<?php echo isset($playlistName) ? $playlistName : "";?>">
                 <span class="error"><?php echo $playlistNameErr; ?></span>
                 <br><br>
                 Please enter a list of tags this playlist should have, space separated. See <a href="/searchHelp.php">Search Help</a> for tagging guidelines. Note that tags here do not need the "tag:" prefix like they do for searching.
-                <input type="text" name="tags" size="100" value="<?php echo $tags; ?>">
+                <input type="text" name="tags" size="100" value="<?php echo isset($tags) ? $tags : ""; ?>">
                 <br><br>
                 <input type="submit" name="submit" value="Create Playlist"/>
             </form>
