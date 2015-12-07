@@ -1,17 +1,17 @@
 <?php
 
-$albumName = $_POST['album'];
 $artist = $_POST['artist'];
 $tagArray = $_POST['tags'];
 $titleArray = $_POST['titles'];
 $fileArray = $_FILES['upload']['name'];
 
 //var_dump($fileArray);
-/*echo(" ");
-var_dump($tagArray);
-echo(" ");
+//echo(" ");
+//var_dump($titleArray);
+//var_dump($tagArray);
+//echo(" ");
 //echo($tagArray);
-echo $albumName . " " . $artist;*/
+//echo $albumName . " " . $artist;
 
 
 //add files to the /songs/ directory
@@ -22,32 +22,59 @@ $path = "songs/"; // Upload directory
 $count = 0;
 
 if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
-	echo("Success 1!");
+	//echo("Success 1!");
 	// Loop $_FILES to exeicute all files
 	foreach ($_FILES['upload']['name'] as $f => $name) {     
-	    echo("Success: " . $name);
+	    //echo("Success: " . $name);
 	    if ($_FILES['upload']['error'][$f] == 4) {
-	        echo("Fail 1!");
+	        //echo("Fail 1!");
 	        continue; // Skip file if any error found
 	    };
-	    echo("Made it here");
-	    echo($_FILES['upload']['error'][$f]);
+	    //echo("Made it here");
+	    echo("error code: " . $_FILES['upload']['error'][$f] . " | ");
 	    if ($_FILES['upload']['error'][$f] == 0) {
-	    		echo("Success 2!");        
+	    		//echo("Success 2!");        
 	        if ($_FILES['upload']['size'][$f] > $max_file_size) {
 	            $message[] = "$name is too large!.";
 	            continue; // Skip large files
-	        	echo("error: " . $message);
+	        	//echo("error: " . $message);
 	        }
 			elseif( ! in_array(pathinfo($name, PATHINFO_EXTENSION), $valid_formats) ){
 				$message[] = "$name is not a valid format";
 				continue; // Skip invalid file formats
-				echo("error: " . $message);
+				//echo("error: " . $message);
 			}
 	        else{ // No error found! Move uploaded files 
 	            if(move_uploaded_file($_FILES["upload"]["tmp_name"][$f], $path.$name))
+	            
+	            $currentTitle = $titleArray[$count];
+
+	        	$currentTagString = $tagArray[$count];
+	        	$explodedTags = explode(' ', $currentTagString);
+
+	        	echo("Current Title: " . $currentTitle);
+	        	echo("Current Tag String: " . $currentTagString);
+	        	var_dump($explodedTags);
+
+
+
+
+
+
+
+
+
+
 	            $count++; // Number of successfully uploaded file
-	        	echo("Success!");
+	        	//echo("Success!");
+
+
+
+
+
+
+
+
 	        };
 	    };
 	};

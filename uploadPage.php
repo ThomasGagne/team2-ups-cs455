@@ -21,7 +21,7 @@ require 'generalFunctions.php';
           function newRow(){
             var fileRow = document.getElementById("file-upload-rows");
 	  var div = document.createElement("div");
-            div.innerHTML = '<br><label> Title: <input type="text" name="title[]"/></label><label> Tags: <input type="text" name="tags[]" /></label><label><input type="file" name="files[]" /></label>';
+            div.innerHTML = '<br><label> Title: <input type="text" name="titles[]"/></label><label> Tags: <input type="text" name="tags[]" /></label><label><input type="file" name="files[]" /></label>';
 	  fileRow.appendChild(div);
           };
           </script>
@@ -29,7 +29,6 @@ require 'generalFunctions.php';
           <br>
 
           <form action="uploadTestHandler.php" method="post" id="form1" enctype="multipart/form-data">
-            Album: <input type="text" name="album">
             Artist: <input type="text" name="artist">
             <input type="submit"/>
 
