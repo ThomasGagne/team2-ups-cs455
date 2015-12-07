@@ -45,7 +45,7 @@ require 'generalFunctions.php';
             
             $ordering = ""; // Need to figure this out, maybe change the database?
             
-            $query = "select P.*, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) as songScore from Starred group by title, artist, songUploader) ";
+            $query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) ";
             $conditions = array();
             
             if (count($args) !== 0) {
@@ -98,6 +98,21 @@ require 'generalFunctions.php';
 
             $query = $query . "group by playlistname, playlistowner limit $offset, 10";
             $query = $query . " " . $ordering . ";";
+
+            try {
+                $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $statement = $db->prepare($query);
+                $result = $statement->execute();
+
+                while ($row = $statement->fetch()) {
+                    echo generatePlaylistSearch($row);
+                }
+
+            } catch(PDOException $e) {
+                echo 'Exception: '.$e->getMessage();
+            }
             
             //echo $query;
             ?>

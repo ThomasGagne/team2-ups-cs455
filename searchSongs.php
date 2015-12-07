@@ -44,7 +44,7 @@ require 'generalFunctions.php';
             
             $ordering = "order by uploadTimeStamp desc";
             
-            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader)";
+            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) - 1 as score from Starred group by title, artist, songUploader)";
             $conditions = array();
             
             if (count($args) !== 0) {

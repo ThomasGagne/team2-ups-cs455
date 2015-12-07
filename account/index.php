@@ -70,7 +70,7 @@ if (!isset($_GET["user"])) {
             <h3>Recently Uploaded:</h3>
 
             <?php
-            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader) where uploader=\"$user\" order by uploadTimeStamp desc limit 15;";
+            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) - 1 as score from Starred group by title, artist, songUploader) where uploader=\"$user\" order by uploadTimeStamp desc limit 15;";
 
             try {
                 $db = new PDO("sqlite:../database/noiseFactionDatabase.db");

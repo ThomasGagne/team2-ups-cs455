@@ -35,7 +35,7 @@ function generateSongPlayerFromPK($title, $artist, $uploader) {
         }
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $statement = $db->prepare("select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) as score from Starred group by title, artist, songUploader) where title = ? and artist = ? and S.uploader = ?;");
+        $statement = $db->prepare("select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) - 1 as score from Starred group by title, artist, songUploader) where title = ? and artist = ? and S.uploader = ?;");
         
         $result = $statement->execute(array($title, $artist, $uploader));
 
@@ -54,6 +54,20 @@ function generateSongPlayerFromPK($title, $artist, $uploader) {
     return "";
 }
 
+function generatePlaylistSearch($pArr) {
+    $playlistName = $pArr["playlistName"];
+    $owner = $pArr["playlistOwner"];
+    $score = $pArr["score"];
+
+    $html = "<div class='playlistSearch'>";
+    $html = $html . "<div style='margin-top: 5px; margin-bottom: 10px; margin-left: 5px;'>";
+    $html = $html . "<span class='score'>⬆<b>$score</b></span>";
+    $html = $html . "<a href='/viewPlaylist.php?playlistName=$playlistName&owner=$owner'>$playlistName</a>";
+    $html = $html . " - Created by <a href='/account/index.php?user=$owner'>$owner<a>";
+    $html = $html . "</div>";
+    return $html;    
+}
+
 // Return a string which can be echoed to the page and embodies a music player
 // INPUT: A dictionary of all the song's details. The keys should at a minimum be:
 // title
@@ -67,7 +81,7 @@ function generateSongPlayer($songArr) {
     $artist = $songArr["artist"];
     $uploader = $songArr["uploader"];
     $location = $songArr["location"];
-    $score = $songArr["score"] - 1;
+    $score = $songArr["score"];
 
     $html = "<div class='songPlayer'><table><tr><td>";
 
@@ -126,7 +140,7 @@ function generateSongPlayer($songArr) {
     // Add the song details and time counter
     $html = $html . "<table class='songDetailsTable'><tr><td>$title - $artist</td></tr>";
     $timerID = $title . ":" . $artist . ":" . $uploader . ":time";
-    $html = $html . "<tr><td><span id='$timerID'>00:00</span> - Uploader: <a href='/account/index.php?user=$uploader'>$uploader</a></td></tr>";
+    $html = $html . "<tr><td><span id='$timerID'>00:00</span> - Uploader: <a href='/account/index.php?user=$uploader'>$uploader</a> - <a href='/songs/$location'>Download</a></td></tr>";
 
     // Clean up
     $html = $html . "</table></td></tr></table></div>";
@@ -164,13 +178,12 @@ function printPlayList($pname, $owner){
 
             
             $db = null;
-
-        } catch(PDOException $e) {
-            echo 'Exceptions: '.$e->getMessage();
-        }
         
-
+    } catch(PDOException $e) {
+        echo 'Exceptions: '.$e->getMessage();
+    }
 }
+
 // Directly prints out some HTML which allows one to change the page number using a GET variable
 // INPUT: The name of the GET variable for the offset
 // OUTPUT: Nothing. It prints out to the page, though.
