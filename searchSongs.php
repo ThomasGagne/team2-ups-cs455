@@ -52,39 +52,25 @@ require 'generalFunctions.php';
                 $addedAnd = false;
                 
                 foreach ($args as $arg) {
-                    
+                    $not = "";
+
                     if (substr($arg, 0, 1) === '-') {
-                        $query = $query . "not ";
+                        $not = " not ";
                         $arg = substr($arg, 1);
                     }
-                    
+                                        
                     if (substr($arg, 0, 4) === 'tag:') {
-                        if (!$addedAnd) {
-                            $query = $query . " and ";
-                            $addedAnd = true;
-                        }
-                        
                         $tag = substr($arg, 4);
                         // Is there a better method than this?
-                        array_push($conditions, "exists (select * from Song as S1 natural join SongTags where tagName = '$tag' and S1.title = S.title and S1.artist = S.artist and S1.uploader = S.uploader) ");
+                        array_push($conditions, "$not exists (select * from Song as S1 natural join SongTags where tagName = '$tag' and S1.title = S.title and S1.artist = S.artist and S1.uploader = S.uploader) ");
                         
                     } else if (substr($arg, 0, 7) === 'artist:') {
-                        if (!$addedAnd) {
-                            $query = $query . " and ";
-                            $addedAnd = true;
-                        }
-                        
                         $artist = substr($arg, 7);
-                        array_push($conditions, "artist = '$artist' ");
+                        array_push($conditions, "$not artist = '$artist' ");
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
-                        if (!$addedAnd) {
-                            $query = $query . " and ";
-                            $addedAnd = true;
-                        }
-
                         $user = substr($arg, 5);
-                        array_push($conditions, "uploader = '$user' and exists (select * from account as A where A.username = '$user' and A.private = false) ");
+                        array_push($conditions, "$not uploader = '$user' and exists (select * from account as A where A.username = '$user' and A.private = false) ");
                         
                     } else if (substr($arg, 0, 6) === 'order:') {
                         $order = substr($arg, 6);
@@ -96,7 +82,7 @@ require 'generalFunctions.php';
                         }
                     } else {
                         $arg = str_replace("*", "%", $arg);
-                        array_push($conditions, "title like '$arg'");
+                        array_push($conditions, "$not title like '$arg'");
                     }
                     
                 }
@@ -109,11 +95,14 @@ require 'generalFunctions.php';
                 // PHP's reduce function is really weird and puts an " and " at the start
                 $all_conditions = substr($all_conditions, 5);
 
-                $query = $query . $all_conditions . " ";
+                if (inputted_properly($all_conditions)) {
+                    $query = $query . " and " . $all_conditions . " ";
+                }
             }
 
             $query = $query . " " . $ordering;
             $query = $query . " limit $offset, 10;";
+            echo $query;
             
             try {
                 $db = new PDO("sqlite:database/noiseFactionDatabase.db");

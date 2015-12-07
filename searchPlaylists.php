@@ -46,40 +46,34 @@ require 'generalFunctions.php';
             $ordering = ""; // Need to figure this out, maybe change the database?
             
             //$query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) ";
-            $query = "select * from playlist as P ";
+            $query = "select * from playlist as P where exists (select * from Account as A where A.username = P.owner and A.private = 'false') ";
             $conditions = array();
             
             if (count($args) !== 0) {
                 
-                $query = $query . " where ";
+                $addedAnd = false;
                 
                 foreach ($args as $arg) {
-                    
+
+                    $not = "";
+
                     if (substr($arg, 0, 1) === '-') {
-                        $query = $query . "not ";
+                        $not = " not ";
                         $arg = substr($arg, 1);
                     }
                     
                     if (substr($arg, 0, 4) === 'tag:') {
                         $tag = substr($arg, 4);
                         // Is there a better method than this?
-                        array_push($conditions, "exists (select * from Playlist as P1 natural join PlaylistTags where tagName = '$tag' and P1.playlistname = P.playlistname and P1.owner = P.owner) ");
+                        array_push($conditions, "$not exists (select * from Playlist as P1 natural join PlaylistTags where tagName = '$tag' and P1.playlistname = P.playlistname and P1.owner = P.owner) ");
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
                         $user = substr($arg, 5);
-                        array_push($conditions, "owner = '$user' ");
+                        array_push($conditions, "$not owner = '$user' ");
                         
-                    } else if (substr($arg, 0, 6) === 'order:') {
-                        $order = substr($arg, 6);
-                        
-                        if ($order === "score") {
-                            $ordering = "order by score desc";
-                        } else if ($order === "score_asc"){
-                            $ordering = "order by score";
-                        }
                     } else {
                         $arg = str_replace("*", "%", $arg);
-                        array_push($conditions, "playlistname like '$arg'");
+                        array_push($conditions, "$not playlistname like '$arg'");
                     }
                     
                 }
@@ -91,10 +85,11 @@ require 'generalFunctions.php';
                 $all_conditions = array_reduce($conditions, "joinConditions");
                 // PHP's reduce function is really weird and puts an " and " at the start
                 $all_conditions = substr($all_conditions, 5);
+
+                if (inputted_properly($all_conditions)) {
+                    $query = $query . " and " . $all_conditions . " ";
+                }
                 
-                $query = $query . $all_conditions . " ";
-                // TODO: integrate the ability to change the offset of the limit
-                // use: limit 15 offset 15*pagenum
             }
 
             //$query = $query . "group by playlistname, playlistowner limit $offset, 10";
@@ -116,7 +111,7 @@ require 'generalFunctions.php';
                 echo 'Exception: '.$e->getMessage();
             }
             
-            //echo $query;
+            echo $query;
             ?>
         </div>
 
