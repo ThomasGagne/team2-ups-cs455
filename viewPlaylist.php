@@ -27,7 +27,7 @@ if (!isset($_GET["playlistName"]) or !isset($_GET["owner"])) {
         <div class="content-center">
             <div>
             <?php echo "<h2>" . $playlistName . "</h2>"; ?>
-            <?php echo "Uploaded by: " . $owner; ?>
+            <?php echo "Uploaded by: <a href='/account/index.php?user=$owner'>" . $owner . "</a>"; ?>
             <hr>
 
             <?php
