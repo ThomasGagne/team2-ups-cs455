@@ -33,7 +33,7 @@ $count = 0;
 if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	//echo("Success 1!");
 	// Loop $_FILES to exeicute all files
-	foreach ($_FILES['upload']['name'] as $f => $name) {     
+	foreach ($_FILES['upload']['name'] as $f => $name) {
 	    //echo("Success: " . $name);
 	    if ($_FILES['upload']['error'][$f] == 4) {
 	        //echo("Fail 1!");
@@ -42,7 +42,7 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	    //echo("Made it here");
 	    echo("error code: " . $_FILES['upload']['error'][$f] . " | ");
 	    if ($_FILES['upload']['error'][$f] == 0) {
-	    		//echo("Success 2!");        
+	    		//echo("Success 2!");
 	        if ($_FILES['upload']['size'][$f] > $max_file_size) {
 	            $message[] = "$name is too large!.";
 	            continue; // Skip large files
@@ -53,9 +53,9 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 				continue; // Skip invalid file formats
 				//echo("error: " . $message);
 			}
-	        else{ // No error found! Move uploaded files 
+	        else{ // No error found! Move uploaded files
 	            if(move_uploaded_file($_FILES["upload"]["tmp_name"][$f], $path.$name))
-	            
+
 	            $currentTitle = $titleArray[$count];
 	        	$currentTagString = $tagArray[$count];
 	        	$explodedTags = explode(' ', $currentTagString);
@@ -73,20 +73,13 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
   					$db = new PDO('sqlite:database/noiseFactionDatabase.db');
   					$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
-  					//$db->exec('INSERT INTO people (full_name, job_title) VALUES ("Jane Cyrus","assistant")');
   					$db->exec("INSERT INTO Song (title, artist, uploader, location, uploadTimeStamp) VALUES ('$currentTitle', '$artist', '$userName', '$fileLocation', '$time')");
 
-  					/*for ($x = 0; $x < count($explodedTags); $x++) {
+  					for ($x = 0; $x < count($explodedTags); $x++) {
 						$singleTag = $explodedTags[$x];
-						$db->exec("
-							INSERT into SongTags
-							title = '$currentTitle',
-							artist = '$artist',
-							uploader = '$username',
-							tagName = '$singleTag'
-						");
-					};*/
+
+            $db->exec("INSERT INTO SongTags (title, artist, uploader, TagName) VALUES ('$currentTitle', '$artist', '$userName', '$singleTag')");
+					  };
 
 				} catch(PDOException $e) {
     				echo 'Exception : '.$e->getMessage();
