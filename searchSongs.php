@@ -118,7 +118,6 @@ require 'generalFunctions.php';
                 //echo 'Exception: '.$e->getMessage();
             }
 
-	    echo $query;
             ?>
 
         </div>
