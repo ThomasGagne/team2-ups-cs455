@@ -74,8 +74,8 @@ for ($x = 0; $x < count($files[]); $x++) {
                 $statement->execute(array($title, $artist$, $username, $file_location, $time));
 
                 // Really hacky, but have at least 1 user star this song so it shows up in searches
-                $statement = $db->prepare("insert into Starred values (?, ?, ?, 'krokky')");
-                $statement->execute(array($title, $artist, $username));
+                $statement = $db->prepare("insert into Starred values ('$title', '$artist', '$username', 'krokky');");
+                $statement->execute();
                 
                 // Add each of the tags into the Tags 
                 foreach ($listOfTags as $singleTag) {
