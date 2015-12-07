@@ -117,6 +117,8 @@ require 'generalFunctions.php';
             } catch(PDOException $e) {
                 //echo 'Exception: '.$e->getMessage();
             }
+
+	    echo $query;
             ?>
 
         </div>
