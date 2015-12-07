@@ -18,8 +18,8 @@ try {
     $db = new PDO("sqlite:database/noiseFactionDatabase.db");
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $statement = $db->prepare("insert into Account values(?, ?, ?);");
-    $result = $statement->execute(array($username, $email, $hash));
+    $statement = $db->prepare("insert into Account values(?, ?, ?, ?);");
+    $result = $statement->execute(array($username, $email, $hash, "false"));
 
     if (!$result) {
         throw new pdoDbException("Something's gone wrong with the prepared statement");
