@@ -114,7 +114,6 @@ require 'generalFunctions.php';
 
             $query = $query . " " . $ordering;
             $query = $query . " limit $offset, 10;";
-            echo $query;
             
             try {
                 $db = new PDO("sqlite:database/noiseFactionDatabase.db");
