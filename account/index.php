@@ -26,48 +26,46 @@ if (!isset($_GET["user"])) {
 
         <?php include("../header.php"); ?>
         <?php include("../noscript.html"); ?>
-        <?php include("/privacyPage.php");
-        echo $privateBool;
-        ?>
+        <?php include("/privacyPage.php"); ?>
 
-        <div class="pv-right">
+        
+            
+
+       
+
+
+
+        <div class="content-center">
+            <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
             <form action="privacyPage.php" method="post" class ="dropdown"  size="20">
             <select name="privacy">
               <option value="Public">Public</option>
               <option value="Private">Private</option>
             </select>
             <input type="submit" style="font-size: 12px;" size="20" value="Apply setting"/>
-        </form>
-        <?php
+              </form>
+            <?php
                 try {
                 $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-                $statement = $db->prepare("Select private from Account where username='$user';");
+                $statement = $db->prepare("Select * from Account where username='$user';");
                 $result = $statement->execute();
+                $statement->fetch();
+                $isPrivate = $statement->fetch()["private"];
+
+                
 
                 $db = null;
             
                 } catch(PDOException $e) {
                  echo 'Exception: '.$e->getMessage();
                 }
-         echo "Current setting is: $result";
-         ?>
-        </div>
-
-        <?php
         
-       if($privateBool){
-                echo "<form class='headerSearchContainer' action=''>
-               <input type='text' name='addSearch' class='dropSearch' placeholder='Search Songs' size='20'/>
-                <input type='submit' style='font-size: 12px;' value='Search!'>
-                </form>";}
-        ?>
+             ?>
 
-
-
-        <div class="content-center">
-            <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
+            <?php echo "Current Privacy setting is: ". ($isPrivate ? "Private" : "Public");?>
+            
             <hr>
             <h3>Recently Uploaded:</h3>
 

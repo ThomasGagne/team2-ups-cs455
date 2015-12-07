@@ -21,6 +21,7 @@ $privateString = $_POST["privacy"];
 
 
 switch ($privateString) {
+    //CHANGE TO PUBLIC
     case "Public":
         try {
         $db = new PDO("sqlite:database/noiseFactionDatabase.db");
@@ -38,7 +39,7 @@ switch ($privateString) {
         header("Location: /account/index.php?user=" . $_SESSION["username"] . "");
         exit();
         break;
-        
+        //CHANGE TO PRIVATE
         case "Private":
         $privateBool = true;
         $searchName = $_POST["addSearch"];
@@ -56,7 +57,7 @@ switch ($privateString) {
          echo 'Exception: '.$e->getMessage();
         }
 
-        header("Location: /account/index.php");
+        header("Location: /account/index.php?user=" . $_SESSION["username"] . "");
         exit();
         break; 
 }

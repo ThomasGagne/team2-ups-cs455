@@ -11,8 +11,6 @@
                 echo '<a href="/login.php">Login</a>';
                 echo "  |  ";
                 echo '<a href="/register.php">Register</a>';
-                echo "  |   ";
-                echo '<a href="/uploadPage.php">Upload</a>';
             }
             ?>
             |
