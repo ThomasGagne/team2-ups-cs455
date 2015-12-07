@@ -93,7 +93,8 @@ if (!isset($_GET["user"])) {
             <h3><?php echo $user;?>'s Playlists:</h3>
 
             <?php
-            $query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) where playlistOwner = ?";
+            $query = "select * from playlist where owner = ?;";
+            //$query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) where playlistOwner = ?";
 
             try {
                 $db = new PDO("sqlite:../database/noiseFactionDatabase.db");

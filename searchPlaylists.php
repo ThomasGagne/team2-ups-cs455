@@ -45,7 +45,8 @@ require 'generalFunctions.php';
             
             $ordering = ""; // Need to figure this out, maybe change the database?
             
-            $query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) ";
+            //$query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) ";
+            $query = "select * from playlist as P ";
             $conditions = array();
             
             if (count($args) !== 0) {
@@ -62,11 +63,11 @@ require 'generalFunctions.php';
                     if (substr($arg, 0, 4) === 'tag:') {
                         $tag = substr($arg, 4);
                         // Is there a better method than this?
-                        array_push($conditions, "exists (select * from Playlist as P1 natural join PlaylistTags where tagName = '$tag' and P1.playlistname = P.playlistname and P1.owner = P.playlistowner) ");
+                        array_push($conditions, "exists (select * from Playlist as P1 natural join PlaylistTags where tagName = '$tag' and P1.playlistname = P.playlistname and P1.owner = P.owner) ");
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
                         $user = substr($arg, 5);
-                        array_push($conditions, "playlistowner = '$user' ");
+                        array_push($conditions, "owner = '$user' ");
                         
                     } else if (substr($arg, 0, 6) === 'order:') {
                         $order = substr($arg, 6);
@@ -96,7 +97,8 @@ require 'generalFunctions.php';
                 // use: limit 15 offset 15*pagenum
             }
 
-            $query = $query . "group by playlistname, playlistowner limit $offset, 10";
+            //$query = $query . "group by playlistname, playlistowner limit $offset, 10";
+            $query = $query . "limit $offset, 10 ";
             $query = $query . " " . $ordering . ";";
 
             try {

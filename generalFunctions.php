@@ -56,12 +56,10 @@ function generateSongPlayerFromPK($title, $artist, $uploader) {
 
 function generatePlaylistSearch($pArr) {
     $playlistName = $pArr["playlistName"];
-    $owner = $pArr["playlistOwner"];
-    $score = $pArr["score"];
+    $owner = $pArr["owner"];
 
     $html = "<div class='playlistSearch'>";
     $html = $html . "<div style='margin-top: 5px; margin-bottom: 10px; margin-left: 5px;'>";
-    $html = $html . "<span class='score'>⬆<b>$score</b></span>";
     $html = $html . "<a href='/viewPlaylist.php?playlistName=$playlistName&owner=$owner'>$playlistName</a>";
     $html = $html . " - Created by <a href='/account/index.php?user=$owner'>$owner<a>";
     $html = $html . "</div>";
