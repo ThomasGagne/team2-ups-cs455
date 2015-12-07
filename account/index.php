@@ -30,31 +30,35 @@ if (!isset($_GET["user"])) {
 
         <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
-            <form action="privacyPage.php" method="post" class ="dropdown"  size="20">
-            <select name="privacy">
-              <option value="Public">Public</option>
-              <option value="Private">Private</option>
-            </select>
-            <input type="submit" style="font-size: 12px;" size="20" value="Apply setting"/>
-              </form>
             <?php
+            if ($_SESSION["username"] == $user) {
+
+                echo "<form action='privacyPage.php' method='post' class='dropdown' size='20'>";
+                echo "<select name='privacy'>";
+                echo "<option value='Public'>Public</option>";
+                echo "<option value='Private'>Private</option>";
+                echo "</select>";
+                echo "<input type='submit' style='font-size: 12px;' size='20' value='Apply setting'/>";
+                echo "</form>";
+
                 try {
-                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
-                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-                $statement = $db->prepare("Select * from Account where username='$user';");
-                $result = $statement->execute();
-                $isPrivate = $statement->fetch()["private"] ? "Private" : "Public";
-
-                $db = null;
-            
+                    $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+                    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    
+                    $statement = $db->prepare("Select * from Account where username='$user';");
+                    $result = $statement->execute();
+                    $isPrivate = $statement->fetch()["private"] ? "Private" : "Public";
+                    
+                    $db = null;
+                    
                 } catch(PDOException $e) {
-                 echo 'Exception: '.$e->getMessage();
+                    echo 'Exception: '.$e->getMessage();
                 }
-        
-             ?>
 
-            <?php echo "Current privacy setting: " . $isPrivate;?>
+                echo "Current privacy setting: " . $isPrivate;
+            }
+
+            ?>
             
             <hr>
             <h3>Recently Uploaded:</h3>
