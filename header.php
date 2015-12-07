@@ -37,7 +37,6 @@
         <span class="indexHome">
             <?php
             echo '<a href="/index.php">Home</a>';
-            echo "  |   ";
             ?>
         </span>
         <!-- Logout button -->
@@ -45,6 +44,7 @@
             <?php
             if (isset($_SESSION["username"])) {
                 echo '<a href="/logout.php">Logout</a>';
+		echo "   |   ";
             }
             ?>
         </span>
