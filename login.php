@@ -8,7 +8,6 @@ require 'PasswordHash.php';
 
 $badLoginErr = "";
 
-echo $_SERVER["REQUEST_METHOD"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $username = clean_input($_POST["username"]);
