@@ -26,7 +26,7 @@ if (!isset($_GET["user"])) {
 
         <?php include("../header.php"); ?>
         <?php include("../noscript.html"); ?>
-        <?php include("/privacyPage.php"); ?>
+        <?php include("privacyPage.php"); ?>
 
         
             

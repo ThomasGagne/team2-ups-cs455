@@ -14,17 +14,18 @@ require_once '../generalFunctions.php';
 // }
 
 $username = $_SESSION["username"];
-$privateBool = false;
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $privateString = $_POST["privacy"];
+echo $privateString;
+echo "random string";
 
 
 switch ($privateString) {
     //CHANGE TO PUBLIC
     case "Public":
         try {
-        $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+        $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
         $statement = $db->prepare("update Account set private = false where username= '$username';");
@@ -45,7 +46,7 @@ switch ($privateString) {
         $searchName = $_POST["addSearch"];
 
          try {
-        $db = new PDO("sqlite:database/noiseFactionDatabase.db");
+        $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
         $statement = $db->prepare("update Account set private = true where username= '$username';");
