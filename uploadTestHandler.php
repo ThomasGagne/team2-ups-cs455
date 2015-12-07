@@ -57,10 +57,9 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	            if(move_uploaded_file($_FILES["upload"]["tmp_name"][$f], $path.$name))
 	            
 	            $currentTitle = $titleArray[$count];
-
 	        	$currentTagString = $tagArray[$count];
 	        	$explodedTags = explode(' ', $currentTagString);
-	        	$fileLocation = $path.$name;
+	        	$fileLocation = $name;
 
 	        	echo("Current Title: " . $currentTitle);
 	        	echo("Current Tag String: " . $currentTagString);
@@ -71,19 +70,14 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	        	//load the info into the database
 	        	try {
   					//connect to the database
-  					$db = new PDO('sqlite:database/airport.db');
+  					$db = new PDO('sqlite:database/noiseFactionDatabase.db');
   					$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  					$db->exec("
-  						INSERT into Song
-  							title = '$currentTitle',
-  							artist = '$artist',
-  							uploader = '$username',
-  							location = '$fileLocation',
-  							uploadTimeStamp = '$time'
-  						");
 
-  					for ($x = 0; $x < count($explodedTags); $x++) {
+  					//$db->exec('INSERT INTO people (full_name, job_title) VALUES ("Jane Cyrus","assistant")');
+  					$db->exec("INSERT INTO Song (title, artist, uploader, location, uploadTimeStamp) VALUES ('$currentTitle', '$artist', '$userName', '$fileLocation', '$time')");
+
+  					/*for ($x = 0; $x < count($explodedTags); $x++) {
 						$singleTag = $explodedTags[$x];
 						$db->exec("
 							INSERT into SongTags
@@ -92,6 +86,8 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 							uploader = '$username',
 							tagName = '$singleTag'
 						");
+					};*/
+
 				} catch(PDOException $e) {
     				echo 'Exception : '.$e->getMessage();
 				}

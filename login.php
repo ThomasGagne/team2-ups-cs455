@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             $badLoginErr = "Sorry, your account name or password was wrong.";
-
             header("Location: login.php");
             exit();
         }
@@ -89,15 +88,15 @@ function correct_credentials($username, $password) {
             <h3>Log in to an existing account:</h3>
 
             <form method="post" action="login.php">
-                Username: <input type="text" name="username">
+                Username: <input type="text" name="username"/>
                 <br><br>
-                Password: <input type="password" name="password">
+                Password: <input type="password" name="password"/>
                 <br>
-                <input type="submit" name="submit" value="Log in">
-                <br>
-                <span class="error"><?php echo $badLoginErr; ?></span>
-                <br>
+                <input type="submit" name="submit" value="Log in"/>
             </form>
+            <br>
+	    <span class="error"><?php echo $badLoginErr; ?></span>
+            <br>
 
         </div>
 
