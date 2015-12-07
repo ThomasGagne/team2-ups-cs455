@@ -61,8 +61,8 @@ function generatePlaylistSearch($pArr) {
     $html = "<div class='playlistSearch'>";
     $html = $html . "<div style='margin-top: 5px; margin-bottom: 10px; margin-left: 5px;'>";
     $html = $html . "<a href='/viewPlaylist.php?playlistName=$playlistName&owner=$owner'>$playlistName</a>";
-    $html = $html . " - Created by <a href='/account/index.php?user=$owner'>$owner<a>";
-    $html = $html . "</div>";
+    $html = $html . " - Created by <a href='/account/index.php?user=$owner'>$owner</a>";
+    $html = $html . "</div></div>";
     return $html;    
 }
 

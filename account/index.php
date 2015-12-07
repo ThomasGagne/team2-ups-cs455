@@ -79,12 +79,18 @@ if (!isset($_GET["user"])) {
                 $statement = $db->prepare($query);
                 $result = $statement->execute();
 
+                $something = false;
                 while ($row = $statement->fetch()) {
+                    $something = true;
                     echo generateSongPlayer($row);
                 }
 
             } catch(PDOException $e) {
                 echo 'Exception: '.$e->getMessage();
+            }
+
+            if (!$something) {
+                echo "There doesn't appear to be anything here!";
             }
             ?>
 
@@ -103,12 +109,18 @@ if (!isset($_GET["user"])) {
                 $statement = $db->prepare($query);
                 $result = $statement->execute(array($user));
 
+                $something = false;
                 while ($row = $statement->fetch()) {
+                    $something = true;
                     echo generatePlaylistSearch($row);
                 }
-
+ 
             } catch(PDOException $e) {
                 echo 'Exception: '.$e->getMessage();
+            }
+
+            if (!$something) {
+                echo "There doesn't appear to be anything here!";
             }
             
             ?>
