@@ -1,9 +1,18 @@
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+require 'generalFunctions.php';
+
 $artist = $_POST['artist'];
 $tagArray = $_POST['tags'];
 $titleArray = $_POST['titles'];
 $fileArray = $_FILES['upload']['name'];
+
+$userName = clean_input($_SESSION["username"]);   //get and clean up the username
+$time = time(); //get the timestamp
 
 //var_dump($fileArray);
 //echo(" ");
@@ -51,13 +60,41 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 
 	        	$currentTagString = $tagArray[$count];
 	        	$explodedTags = explode(' ', $currentTagString);
+	        	$fileLocation = $path.$name;
 
 	        	echo("Current Title: " . $currentTitle);
 	        	echo("Current Tag String: " . $currentTagString);
+	        	echo($fileLocation);
 	        	var_dump($explodedTags);
 
 
+	        	//load the info into the database
+	        	try {
+  					//connect to the database
+  					$db = new PDO('sqlite:database/airport.db');
+  					$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+  					$db->exec("
+  						INSERT into Song
+  							title = '$currentTitle',
+  							artist = '$artist',
+  							uploader = '$username',
+  							location = '$fileLocation',
+  							uploadTimeStamp = '$time'
+  						");
+
+  					for ($x = 0; $x < count($explodedTags); $x++) {
+						$singleTag = $explodedTags[$x];
+						$db->exec("
+							INSERT into SongTags
+							title = '$currentTitle',
+							artist = '$artist',
+							uploader = '$username',
+							tagName = '$singleTag'
+						");
+				} catch(PDOException $e) {
+    				echo 'Exception : '.$e->getMessage();
+				}
 
 
 
@@ -81,44 +118,6 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 };
 
 
-
-
-
-
-
-
-
-try {
-  //connect to the database
-  $db = new PDO('sqlite:database/airport.db');
-  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-} catch(PDOException $e) {
-    echo 'Exception : '.$e->getMessage();
-}
 
 
 ?>
