@@ -47,7 +47,13 @@ if (!isset($_GET["user"])) {
                     
                     $statement = $db->prepare("Select * from Account where username='$user';");
                     $result = $statement->execute();
-                    $isPrivate = $statement->fetch()["private"] ? "Private" : "Public";
+                    $private = $statement->fetch()["private"];
+                    
+                    if ($private === "true") {
+        	        $isPrivate = "Private";
+		    } else {
+		        $isPrivate = "Public";
+		    }
                     
                     $db = null;
                     

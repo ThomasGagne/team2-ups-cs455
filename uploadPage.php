@@ -29,7 +29,6 @@ require 'generalFunctions.php';
           <br>
 
           <form action="uploadTestHandler.php" method="post" id="form1" enctype="multipart/form-data">
-            Artist: <input type="text" name="artist">
             <input type="submit"/>
 
             <br>
@@ -37,6 +36,10 @@ require 'generalFunctions.php';
             <fieldset id="file-upload-rows" action="uploadTestHandler.php" method="post" form="form1">
 
               <div class = "file-row">
+                <label> Artist:
+                  <input type="text" name="artist">
+                </label>
+
                 <label> Title:
                   <input type="text" name="titles[]"/>
                 </label>
@@ -57,6 +60,5 @@ require 'generalFunctions.php';
 
 
             </fieldset>
-            <input onClick="newRow();" type="button" id="add-row" name="add-row" value ="Add song" />
       </body>
 </html>
