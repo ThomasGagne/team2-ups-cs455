@@ -20,8 +20,6 @@ require 'generalFunctions.php';
             <?php
             echo "<h3>Search Results For: \"" . $_GET["searchSongs"] . "\"</h3>";
             echo "<span>";
-            printPageNavigation("offset");
-            echo "</span><br>";
             
             $search = clean_input($_GET["searchSongs"]);
 
@@ -30,6 +28,9 @@ require 'generalFunctions.php';
             } else {
                 $offset = "0";
             }
+
+            printPageNavigation($offset);
+            echo "</span><br>";
             
             //////////////////////////////////////////////
             // Form the search box's text into a SFW query

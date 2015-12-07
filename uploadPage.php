@@ -26,12 +26,10 @@ require 'generalFunctions.php';
           };
           </script>
 
-          <br>
+          <div class="content-center" style="margin-top: 10%;">
+          <h3>Upload your song<h3>
 
           <form action="uploadTestHandler.php" method="post" id="form1" enctype="multipart/form-data">
-            <input type="submit"/>
-
-            <br>
 
             <fieldset id="file-upload-rows" action="uploadTestHandler.php" method="post" form="form1">
 
@@ -40,22 +38,30 @@ require 'generalFunctions.php';
                   <input type="text" name="artist">
                 </label>
 
+                <br>
+
                 <label> Title:
                   <input type="text" name="titles[]"/>
                 </label>
+
+                <br>
 
                 <label> Tags:
                   <input type="text" name="tags[]"/>
                 </label>
 
+                <br>
+
                 <label>
                   <input name="upload[]" type="file" multiple="multiple" />
                 </label>
 
+                <br>
+
               </div>
-
+              <input type="submit" value="Submit"/>
           </form>
-
+        </div>
           <br>
 
 
