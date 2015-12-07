@@ -29,7 +29,7 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	    continue; // Skip file if any error found
 	};
         
-	echo("error code: " . $_FILES['upload']['error'][$f] . " | ");
+	//echo("error code: " . $_FILES['upload']['error'][$f] . " | ");
 	if ($_FILES['upload']['error'][$f] == 0) {
             
 	    if ($_FILES['upload']['size'][$f] > $max_file_size) {
@@ -54,10 +54,10 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
                     
 	            $fileLocation = $name;
                     
-	            echo("Current Title: " . $currentTitle);
-	            echo("Current Tag String: " . $currentTagString);
-	            echo($fileLocation);
-	            var_dump($explodedTags);
+	            //echo("Current Title: " . $currentTitle);
+	            //echo("Current Tag String: " . $currentTagString);
+	            //echo($fileLocation);
+	            //var_dump($explodedTags);
                                         
 	            //load the info into the database
 	            try {
@@ -104,5 +104,6 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
     };
 
 
-}
+};
+header("Location: /account/index.php?user=".$_SESSION["username"]);
 ?>

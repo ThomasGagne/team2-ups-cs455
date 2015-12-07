@@ -31,7 +31,7 @@ if (!isset($_GET["user"])) {
         <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
             <?php
-            if ($_SESSION["username"] == $user) {
+            if (isset($_SESSION["username"]) and $_SESSION["username"] == $user) {
 
                 echo "<form action='privacyPage.php' method='post' class='dropdown' size='20'>";
                 echo "<select name='privacy'>";

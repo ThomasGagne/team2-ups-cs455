@@ -13,9 +13,9 @@ require_once '../generalFunctions.php';
 // 	exit();
 // }
 
-$username = $_SESSION["username"];
-
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+     $username = $_SESSION["username"];
+	  
      $privateString = $_POST["privacy"];
 
      if ($privateString == "Public") {
