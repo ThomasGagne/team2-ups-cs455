@@ -67,7 +67,7 @@ function generateSongPlayer($songArr) {
     $artist = $songArr["artist"];
     $uploader = $songArr["uploader"];
     $location = $songArr["location"];
-    $score = $songArr["score"];
+    $score = $songArr["score"] - 1;
 
     $html = "<div class='songPlayer'><table><tr><td>";
 
