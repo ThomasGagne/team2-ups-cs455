@@ -44,12 +44,12 @@ require 'generalFunctions.php';
             
             $ordering = "order by uploadTimeStamp desc";
             
-            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) - 1 as score from Starred group by title, artist, songUploader)";
+            $query = "select * from Song as S natural join (select title, artist, songUploader, count(starringUsername) - 1 as score from Starred group by title, artist, songUploader) where exists (select * from Account as A where A.username = S.uploader and A.private = 'false') ";
             $conditions = array();
             
             if (count($args) !== 0) {
-                
-                $query = $query . " where ";
+
+                $addedAnd = false;
                 
                 foreach ($args as $arg) {
                     
@@ -59,17 +59,32 @@ require 'generalFunctions.php';
                     }
                     
                     if (substr($arg, 0, 4) === 'tag:') {
+                        if (!$addedAnd) {
+                            $query = $query . " and ";
+                            $addedAnd = true;
+                        }
+                        
                         $tag = substr($arg, 4);
                         // Is there a better method than this?
                         array_push($conditions, "exists (select * from Song as S1 natural join SongTags where tagName = '$tag' and S1.title = S.title and S1.artist = S.artist and S1.uploader = S.uploader) ");
                         
                     } else if (substr($arg, 0, 7) === 'artist:') {
+                        if (!$addedAnd) {
+                            $query = $query . " and ";
+                            $addedAnd = true;
+                        }
+                        
                         $artist = substr($arg, 7);
                         array_push($conditions, "artist = '$artist' ");
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
+                        if (!$addedAnd) {
+                            $query = $query . " and ";
+                            $addedAnd = true;
+                        }
+
                         $user = substr($arg, 5);
-                        array_push($conditions, "uploader = '$user' and where exists (select * from account as A where A.username = '$user' and A.private = false) ");
+                        array_push($conditions, "uploader = '$user' and exists (select * from account as A where A.username = '$user' and A.private = false) ");
                         
                     } else if (substr($arg, 0, 6) === 'order:') {
                         $order = substr($arg, 6);
@@ -93,12 +108,13 @@ require 'generalFunctions.php';
                 $all_conditions = array_reduce($conditions, "joinConditions");
                 // PHP's reduce function is really weird and puts an " and " at the start
                 $all_conditions = substr($all_conditions, 5);
-                
+
                 $query = $query . $all_conditions . " ";
             }
 
             $query = $query . " " . $ordering;
             $query = $query . " limit $offset, 10;";
+            echo $query;
             
             try {
                 $db = new PDO("sqlite:database/noiseFactionDatabase.db");
@@ -112,7 +128,7 @@ require 'generalFunctions.php';
                 }
                 
             } catch(PDOException $e) {
-                echo 'Exception: '.$e->getMessage();
+                //echo 'Exception: '.$e->getMessage();
             }
             ?>
 
