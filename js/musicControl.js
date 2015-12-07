@@ -28,7 +28,7 @@ function killSound(){
 function loadNewSong(songLocation) {
   killSound();
   currentSong = new Howl({
-    urls: ["songs/" + songLocation],
+    urls: ["/songs/" + songLocation],
     buffer: true
   });
 
