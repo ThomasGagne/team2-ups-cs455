@@ -183,9 +183,9 @@ function printPlayList($pname, $owner){
 }
 
 // Directly prints out some HTML which allows one to change the page number using a GET variable
-// INPUT: The name of the GET variable for the offset
+// INPUT: The amount of offset and the total number of results
 // OUTPUT: Nothing. It prints out to the page, though.
-function printPageNavigation($offset) {
+function printPageNavigation($offset, $number) {
     echo "Page: ";
     if (strpos($_SERVER["REQUEST_URI"], "&offset=")) {
 
@@ -215,8 +215,12 @@ function printPageNavigation($offset) {
     }
 
     echo ($offset / 10) + 1;
-    echo " ";
-    echo "<a href=\"$upURI\">$upPage</a>";
+
+
+    if ($offset + 10 < $number) {
+        echo " ";
+        echo "<a href=\"$upURI\">$upPage</a>";
+    }
 }
 
 

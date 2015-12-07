@@ -56,9 +56,9 @@ if (!isset($_GET["playlistName"]) or !isset($_GET["owner"])) {
             }
             ?>
             </div>
-            <hr>
             <?php
-            if ($_SESSION["username"] === $owner) {
+            if (isset($_SESSION["username"]) and $_SESSION["username"] === $owner) {
+	        echo "<hr>";
                 echo "Add a song to $playlistName:";
                 echo "<form method='post' action='addToPlaylist.php'>";
                 echo "Song title: <input type='text' name='title'><br>";

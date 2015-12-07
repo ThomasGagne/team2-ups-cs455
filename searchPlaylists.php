@@ -30,9 +30,6 @@ require 'generalFunctions.php';
                 $offset = "0";
             }
 
-            printPageNavigation($offset);
-            echo "</span><br>";
-
             //////////////////////////////////////////////
             // Form the search box's text into a SFW query
             //////////////////////////////////////////////
@@ -93,12 +90,21 @@ require 'generalFunctions.php';
             }
 
             //$query = $query . "group by playlistname, playlistowner limit $offset, 10";
+	    $number = "select count(*) as number from ($query);";
             $query = $query . "limit $offset, 10 ";
             $query = $query . " " . $ordering . ";";
 
             try {
                 $db = new PDO("sqlite:database/noiseFactionDatabase.db");
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+		$statement = $db->prepare($number);
+		$result = $statement->execute();
+		$number = $statement->fetch()["number"];
+                printPageNavigation($offset, $number);
+                echo "</span><br>";
+		echo "Displaying " . ($offset + 1) . "-" . min($offset + 10, $number) . " of $number results";
 
                 $statement = $db->prepare($query);
                 $result = $statement->execute();
