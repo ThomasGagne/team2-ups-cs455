@@ -70,7 +70,7 @@ require 'generalFunctions.php';
                         
                     } else if (substr($arg, 0, 5) === 'user:') {
                         $user = substr($arg, 5);
-                        array_push($conditions, "$not uploader = '$user' and exists (select * from account as A where A.username = '$user' and A.private = false) ");
+                        array_push($conditions, "$not uploader = '$user' ");
                         
                     } else if (substr($arg, 0, 6) === 'order:') {
                         $order = substr($arg, 6);
