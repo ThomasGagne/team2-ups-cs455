@@ -28,13 +28,6 @@ if (!isset($_GET["user"])) {
         <?php include("../noscript.html"); ?>
         <?php include("privacyPage.php"); ?>
 
-        
-            
-
-       
-
-
-
         <div class="content-center">
             <?php echo "<h3>" . $user . "'s Profile</h3>"; ?>
             <form action="privacyPage.php" method="post" class ="dropdown"  size="20">
@@ -51,10 +44,7 @@ if (!isset($_GET["user"])) {
             
                 $statement = $db->prepare("Select * from Account where username='$user';");
                 $result = $statement->execute();
-                $statement->fetch();
-                $isPrivate = $statement->fetch()["private"];
-
-                
+                $isPrivate = $statement->fetch()["private"] ? "Private" : "Public";
 
                 $db = null;
             
@@ -64,7 +54,7 @@ if (!isset($_GET["user"])) {
         
              ?>
 
-            <?php echo "Current Privacy setting is: ". ($isPrivate ? "Private" : "Public");?>
+            <?php echo "Current privacy setting: " . $isPrivate;?>
             
             <hr>
             <h3>Recently Uploaded:</h3>
