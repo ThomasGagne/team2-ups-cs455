@@ -101,3 +101,5 @@ create table Starred (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+
+insert into Account values("krokky", "krokky@krokky.com", "$2a$08$9gc/aJ7t.IdvAowL52903eyrpSaP9WToPP1yzyV5iZI0hz8uCvE7O", "true");

@@ -9,6 +9,7 @@ $usernameErr = $emailErr = $totalFailure = "";
 $username = $email = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $username = clean_input($_POST["username"]);
     $email = clean_input($_POST["email"]);
     
