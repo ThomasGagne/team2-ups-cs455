@@ -68,11 +68,11 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
   		        $db->exec("INSERT INTO Song (title, artist, uploader, location, uploadTimeStamp) VALUES ('$currentTitle', '$artist', '$userName', '$fileLocation', '$time')");
 
                         // Insert Song into the DB
-                        $statement = $db->prepare("insert into Song values(?, ?, ?, ?, ?);");
-                        $statement->execute(array($title, $artist$, $username, $file_location, $time));
+                        //$statement = $db->prepare("insert into Song values(?, ?, ?, ?, ?);");
+                        //$statement->execute(array($title, $artist, $username, $file_location, $time));
 
                         // Really hacky, but have at least 1 user star this song so it shows up in searches
-                        $statement = $db->prepare("insert into Starred values ('$title', '$artist', '$username', 'krokky');");
+                        $statement = $db->prepare("insert into Starred values ('$currentTitle', '$artist', '$userName', 'krokky');");
                         $statement->execute();
                         
                         // Add each of the tags into the Tags
@@ -82,7 +82,7 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
                             
                             // Add the tag to SongTags
                             $statement = $db->prepare("insert into SongTags values (?, ?, ?, ?);");
-                            $statement->execute(array($currentTitle, $artist, $username, $singleTag));
+                            $statement->execute(array($currentTitle, $artist, $userName, $singleTag));
                         }
                         
 //  		        for ($x = 0; $x < count($explodedTags); $x++) {
