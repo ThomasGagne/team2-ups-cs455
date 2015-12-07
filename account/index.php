@@ -87,6 +87,30 @@ if (!isset($_GET["user"])) {
                 echo 'Exception: '.$e->getMessage();
             }
             ?>
+
+            <hr>
+
+            <h3><?php echo $user;?>'s Playlists:</h3>
+
+            <?php
+            $query = "select playlistName, playlistOwner, sum(songScore) as score from PlaylistContainsSong as P natural join (select title, artist, songUploader, count(starringUsername) - 1 as songScore from Starred group by title, artist, songUploader) where playlistOwner = ?";
+
+            try {
+                $db = new PDO("sqlite:../database/noiseFactionDatabase.db");
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $statement = $db->prepare($query);
+                $result = $statement->execute(array($user));
+
+                while ($row = $statement->fetch()) {
+                    echo generatePlaylistSearch($row);
+                }
+
+            } catch(PDOException $e) {
+                echo 'Exception: '.$e->getMessage();
+            }
+            
+            ?>
         </div>
         
     </body>
